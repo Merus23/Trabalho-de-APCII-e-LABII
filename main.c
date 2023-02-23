@@ -104,7 +104,7 @@ int main() {
     printf("\nPERCENTUAL DE HOMENS VIVOS: %.2f%% \n", percentual_homens_vivos(p, MAX_LINHA));
     printf("\nPERCENTUAL DE MULHERES VIVAS: %.2f%% \n", percentual_mulheres_vivas(p, MAX_LINHA));
     printf("\nPERCENTUAL DE CRIANÇAS VIVAS: %.2f%% \n", percentual_criancas_vivas(p, MAX_LINHA));
-    printf("\nPERCENTUAL DE CRIANÇAS VIVAS: %.2f%% \n", percentual_adultos_vivos(p, MAX_LINHA));
+    printf("\nPERCENTUAL DE ADULTOS VIVAS: %.2f%% \n", percentual_adultos_vivos(p, MAX_LINHA));
     
     fclose(arquivo);
 
