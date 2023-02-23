@@ -72,6 +72,31 @@ float percentual_adultos_vivos(Passageiro* passageiros, int num_passageiros) {
     return (float) num_adultos_vivos / num_adultos * 100;
 }
 
+float percentual_vivos_classe(char* classe, Passageiro* p, int n_passageiros) {
+    int i, n_vivos = 0;
+    for (i = 0; i < n_passageiros; i++) {
+        if (strcmp(p[i].classe, classe) == 0 && strcmp(p[i].sobreviveu, "sim") == 0) {
+            n_vivos++;
+        }
+    }
+    return (float)n_vivos * 100.0 / (float)n_passageiros;
+}
+
+float percentual_vivos_primeira_classe(Passageiro* p, int n_passageiros) {
+    return percentual_vivos_classe("1st", p, n_passageiros);
+}
+
+float percentual_vivos_segunda_classe(Passageiro* p, int n_passageiros) {
+    return percentual_vivos_classe("2nd", p, n_passageiros);
+}
+
+float percentual_vivos_terceira_classe(Passageiro* p, int n_passageiros) {
+    return percentual_vivos_classe("3rd", p, n_passageiros);
+}
+
+float percentual_vivos_tripulacao(Passageiro* p, int n_passageiros) {
+    return percentual_vivos_classe("tripulação", p, n_passageiros);
+}
 
 
 int main() {
