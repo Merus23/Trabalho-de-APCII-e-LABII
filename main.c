@@ -99,10 +99,22 @@ float percentual_vivos_tripulacao(Passageiro* p, int n_passageiros) {
 }
 
 
+
+
 int main() {
+    //Log in
+    char usuario[20], senha[15];
+    printf("\n\nDigite o nome de usuário: ");
+    scanf("%s", usuario);
+    printf("\nDigite a senha: ");
+    scanf("%s", senha);
+
+
+
+
+    //Abertura do arquivo
     FILE *arquivo;
-    char linha[MAX_LINHA];
-    
+    char linha[MAX_LINHA];    
     arquivo = fopen("Passageiros.txt", "r");
     if (arquivo == NULL) {
         printf("Não foi possível abrir o arquivo\n");
@@ -111,28 +123,15 @@ int main() {
 
     Passageiro p[MAX_LINHA];
 
+
     for (int i = 0; i < MAX_LINHA && fgets(linha, MAX_LINHA, arquivo); i++) {
         sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
     }
-    
-    /*//Verificar dados
-    for (int i = 0; i < MAX_LINHA && p[i].idade > 0; i++) {
-        printf("Passageiro %d:\n", i + 1);
-        printf("Classe: %s\n", p[i].classe);
-        printf("Idade: %d\n", p[i].idade);
-        printf("Gênero: %s\n", p[i].genero);
-        printf("Sobreviveu: %s\n\n", p[i].sobreviveu);
-    }
-    */
 
-    printf("\n\n");
-    printf("\nPERCENTUAL DE HOMENS VIVOS: %.2f%% \n", percentual_homens_vivos(p, MAX_LINHA));
-    printf("\nPERCENTUAL DE MULHERES VIVAS: %.2f%% \n", percentual_mulheres_vivas(p, MAX_LINHA));
-    printf("\nPERCENTUAL DE CRIANÇAS VIVAS: %.2f%% \n", percentual_criancas_vivas(p, MAX_LINHA));
-    printf("\nPERCENTUAL DE ADULTOS VIVAS: %.2f%% \n", percentual_adultos_vivos(p, MAX_LINHA));
     
+    
+
+
     fclose(arquivo);
-
-
     return 0;
 }
