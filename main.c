@@ -5,32 +5,6 @@
 #define MAX_LEN 100
 #define MAX_LINHA 2201
 
-int fazerLogin(char* username, char* password) {
-    char line[MAX_LEN];
-    int success = 0;
-
-    FILE *file = fopen("login.txt", "r");
-    if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-        exit(1);
-    }
-
-    while (fgets(line, MAX_LEN, file)) {
-        char *token = strtok(line, " ");
-        if (token != NULL && strcmp(token, username) == 0) {
-            token = strtok(NULL, " ");
-            if (token != NULL && strcmp(token, password) == 0) {
-                success = 1;
-                break;
-            }
-        }
-    }
-
-    fclose(file);
-
-    return success;
-}
-
 typedef struct {
     char classe[20];
     int idade;
@@ -126,46 +100,67 @@ float percentual_vivos_tripulacao(Passageiro* p, int n_passageiros) {
 }
 
 
+int fazerLogin(char* username, char* password) {
+    char line[MAX_LEN];
+    int success = 0;
+
+    FILE *file = fopen("Admin.txt", "r");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+
+    while (fgets(line, MAX_LEN, file)) {
+        char *token = strtok(line, " \n"); // adiciona \n para remover espaços extras no final da linha
+        if (token != NULL && strcmp(token, username) == 0) {
+            token = strtok(NULL, " \n"); // adiciona \n para remover espaços extras no final da linha
+            if (token != NULL && strcmp(token, password) == 0) {
+                success = 1;
+                break;
+            }
+        }
+    }
+
+    fclose(file);
+
+    return success;
+}
 
 
 int main() {
-    //Log in    
+        
     char usuario[MAX_LEN], senha[MAX_LEN];
     printf("\n\nDigite o nome de usuário: ");
     scanf("%s", usuario);
     printf("\nDigite a senha: ");
     scanf("%s", senha);
     
-    //Chama a função fazerlogin lá em cima e se a função retornar 1,
-    //uma mensagem vai ser exibida indicando que o login foi bem sucedido. Senão, mensagem de erro.
-     if (fazerLogin(username, password)) {
+    if (fazerLogin(usuario, senha) == 1) {
         printf("Login bem sucedido.\n");
+        
+        FILE *arquivo;
+        char linha[MAX_LINHA];    
+        arquivo = fopen("Passageiros.txt", "r");
+        if (arquivo == NULL) {
+            printf("Não foi possível abrir o arquivo\n");
+            return 1;
+        }
+
+        Passageiro p[MAX_LINHA];
+
+        for (int i = 0; i < MAX_LINHA && fgets(linha, MAX_LINHA, arquivo); i++) {
+            sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
+        }
+
+
+
+
+
+        fclose(arquivo);
+
     } else {
         printf("Nome de usuário ou senha incorretos.\n");
     }
 
-
-
-    //Abertura do arquivo
-    FILE *arquivo;
-    char linha[MAX_LINHA];    
-    arquivo = fopen("Passageiros.txt", "r");
-    if (arquivo == NULL) {
-        printf("Não foi possível abrir o arquivo\n");
-        return 1;
-    }
-
-    Passageiro p[MAX_LINHA];
-
-
-    for (int i = 0; i < MAX_LINHA && fgets(linha, MAX_LINHA, arquivo); i++) {
-        sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
-    }
-
-    
-    
-
-
-    fclose(arquivo);
     return 0;
 }
