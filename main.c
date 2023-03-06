@@ -192,7 +192,8 @@ void exibe_sexo(Passageiro *p, int n) {
     printf("Passageiros do sexo feminino: %d\n", cont_feminino);
     printf("Passageiros do sexo masculino: %d\n", cont_masculino);
     printf("Passageiros no total : %d\n", cont_feminino + cont_masculino);
-    printf("Passageiros por faixa etária e sexo:\n\n");
+    // printf("Passageiros por faixa etária e sexo:\n\n");
+    printf("PASSAGEIROS POR FAIXA ETÁRIA E SEXO:\n\n");
     printf("   | 0-19 | 20-39 | 40-59 | 60+  |\n");
     printf("---+------+------+------+------+\n");
     printf(" F | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[0][0], cont_faixa_etaria[0][1], cont_faixa_etaria[0][2], cont_faixa_etaria[0][3]);
@@ -202,24 +203,143 @@ void exibe_sexo(Passageiro *p, int n) {
 void exibe_classe(Passageiro *p, int n) {
     int primeira = 0, segunda = 0, terceira = 0, tripulacao = 0;
     
+    int primeira_classe_feminino = 0, primeira_classe_masculino = 0;
+    int segunda_classe_feminino = 0, segunda_classe_masculino = 0;
+    int terceira_classe_feminino = 0, terceira_classe_masculino = 0;
+    int tripulacao_feminino = 0, tripulacao_masculino = 0;
+    
+    //4 classes e 4 faixas etárias
+    int cont_faixa_etaria[4][4] = {0};
+
     for (int i = 0; i < n; i++) {
-        if (strcmp(p[i].classe, "1") == 0) {
+        
+        if (strcmp(p[i].classe, "1st") == 0) {
+            
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[0][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[0][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[0][2]++;
+            } else {
+                cont_faixa_etaria[0][3]++;
+            }
+            
             primeira++;
-        } else if (strcmp(p[i].classe, "2") == 0) {
+            if (strcmp(p[i].genero, "feminino") == 0) {
+                primeira_classe_feminino++;
+            } else {
+                primeira_classe_masculino++;
+            }
+        } else if (strcmp(p[i].classe, "2nd") == 0) {
+            
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[1][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[1][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[1][2]++;
+            } else {
+                cont_faixa_etaria[1][3]++;
+            }
+            
             segunda++;
-        } else if (strcmp(p[i].classe, "3") == 0) {
+            if (strcmp(p[i].genero, "masculino") == 0) {
+                segunda_classe_feminino++;
+            } else {
+                segunda_classe_masculino++;
+            }
+        } else if (strcmp(p[i].classe, "3rd") == 0) {
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[2][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[2][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[2][2]++;
+            } else {
+                cont_faixa_etaria[2][3]++;
+            }
+            
             terceira++;
+            if (strcmp(p[i].genero, "feminino") == 0) {
+                terceira_classe_feminino++;
+            } else {
+                terceira_classe_masculino++;
+            }
         } else {
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[3][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[3][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[3][2]++;
+            } else {
+                cont_faixa_etaria[3][3]++;
+            }
+            
             tripulacao++;
+            if (strcmp(p[i].genero, "feminino") == 0) {
+                tripulacao_feminino++;
+            } else {
+                tripulacao_masculino++;
+            }
         }
+        
     }
 
-    printf("Número de passageiros por classe:\n");
+    
+    /*
+    
+if (strcmp(p[i].genero, "feminino") == 0) {
+            cont_feminino++;
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[0][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[0][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[0][2]++;
+            } else {
+                cont_faixa_etaria[0][3]++;
+            }
+        } else if (strcmp(p[i].genero, "masculino") == 0) {
+            cont_masculino++;
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[1][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[1][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[1][2]++;
+            } else {
+                cont_faixa_etaria[1][3]++;
+            }
+        }
+
+    */
+
+    // printf("Número de passageiros por classe:\n");
+    printf("NÚMERO DE PASSAGEIROS POR CLASSE:\n");
     printf("Primeira classe: %d\n", primeira);
     printf("Segunda classe: %d\n", segunda);
     printf("Terceira classe: %d\n", terceira);
     printf("Tripulação: %d\n", tripulacao);
-    printf("Número de todos os passageiros separados por classe: %d\n", n-tripulacao);
+    
+    printf("NÚMERO DE PASSAGEIROS POR CLASSE E SEXO:\n");
+    printf("Primeira classe - Feminino: %d | Masculino: %d\n", primeira_classe_feminino, primeira_classe_masculino);
+    printf("Segunda classe - Feminino: %d | Masculino: %d\n", segunda_classe_feminino, segunda_classe_masculino);
+    printf("Terceira classe - Feminino: %d | Masculino: %d\n", terceira_classe_feminino, terceira_classe_masculino);
+    printf("Tripulação - Feminino: %d | Masculino: %d\n", tripulacao_feminino, tripulacao_masculino);
+    
+    
+    printf("NÚMERO DE PASSAGEIROS POR CLASSE E FAIXA ETÁRIA:\n\n");
+    printf("      | 0-19 | 20-39 | 40-59 | 60+    |\n");
+    printf("------+------+------+------+--------+\n");
+    printf(" 1st  | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[0][0], cont_faixa_etaria[0][1], cont_faixa_etaria[0][2], cont_faixa_etaria[0][3]);
+    printf(" 2nd  | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[1][0], cont_faixa_etaria[1][1], cont_faixa_etaria[1][2], cont_faixa_etaria[1][3]);
+    printf(" 3nd  | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[2][0], cont_faixa_etaria[2][1], cont_faixa_etaria[2][2], cont_faixa_etaria[2][3]);
+    printf(" tri. | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[3][0], cont_faixa_etaria[3][1], cont_faixa_etaria[3][2], cont_faixa_etaria[3][3]);
+    
+
+
 }
 
 
