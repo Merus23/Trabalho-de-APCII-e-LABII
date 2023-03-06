@@ -142,7 +142,16 @@ int fazerLogin(char* username, char* password) {
     return success;
 }
 
+void menu(){
+    int op;
+    
+    printf("1 - Exibir número de passageiros por sexo\n");
+    printf("2 - Exibir número de passageiros por classe\n");
+    printf("3 - Exibir número de passageiros por situação\n");
+    scanf("%d", &op);
 
+
+}
 
 int main() {
     char usuario[MAX_LEN], senha[MAX_LEN];
@@ -154,9 +163,10 @@ int main() {
     if (fazerLogin(usuario, senha)) {
         printf("Login bem sucedido.\n");
         
-        FILE *arquivo;
+        menu();
+        
         char linha[MAX_LINHA];    
-        arquivo = fopen("Passageiros.txt", "r");
+        FILE *arquivo = carregar_arquivo("Passageiros.txt");
         verifica_abertura(arquivo);
 
         Passageiro p[MAX_LINHA];
@@ -165,7 +175,9 @@ int main() {
             sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
         }
 
-        
+        //printf("Percentual de sobreviventes do sexo feminino: %.2f\n", percentual_mulheres_vivas(p, MAX_LINHA));
+
+
         fclose(arquivo);
 
     } else {
