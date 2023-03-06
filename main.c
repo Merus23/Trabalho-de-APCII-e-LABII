@@ -288,34 +288,6 @@ void exibe_classe(Passageiro *p, int n) {
     }
 
     
-    /*
-    
-if (strcmp(p[i].genero, "feminino") == 0) {
-            cont_feminino++;
-            if (p[i].idade >= 0 && p[i].idade <= 19) {
-                cont_faixa_etaria[0][0]++;
-            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
-                cont_faixa_etaria[0][1]++;
-            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
-                cont_faixa_etaria[0][2]++;
-            } else {
-                cont_faixa_etaria[0][3]++;
-            }
-        } else if (strcmp(p[i].genero, "masculino") == 0) {
-            cont_masculino++;
-            if (p[i].idade >= 0 && p[i].idade <= 19) {
-                cont_faixa_etaria[1][0]++;
-            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
-                cont_faixa_etaria[1][1]++;
-            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
-                cont_faixa_etaria[1][2]++;
-            } else {
-                cont_faixa_etaria[1][3]++;
-            }
-        }
-
-    */
-
     // printf("Número de passageiros por classe:\n");
     printf("NÚMERO DE PASSAGEIROS POR CLASSE:\n");
     printf("Primeira classe: %d\n", primeira);
@@ -338,7 +310,25 @@ if (strcmp(p[i].genero, "feminino") == 0) {
     printf(" 3nd  | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[2][0], cont_faixa_etaria[2][1], cont_faixa_etaria[2][2], cont_faixa_etaria[2][3]);
     printf(" tri. | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[3][0], cont_faixa_etaria[3][1], cont_faixa_etaria[3][2], cont_faixa_etaria[3][3]);
     
+}
 
+
+
+void exibe_situacao(Passageiro *p, int n){
+    int cont_sobreviventes = 0;
+    int cont_nao_sobreviventes = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (strcmp(p[i].sobreviveu, "sim") == 0) {
+            cont_sobreviventes++;
+        
+        } else {
+            cont_nao_sobreviventes++;
+        }
+    }
+    printf("NÚMERO DE PASSAGEIROS POR SITUAÇÃO:\n");
+    printf("Sobreviventes: %d\n", cont_sobreviventes);
+    printf("Não sobreviventes: %d\n", cont_nao_sobreviventes);
 
 }
 
@@ -389,6 +379,7 @@ void menu(){
                 scanf("%d", &op);
                 break;
             case 4:
+                exibe_situacao(p, MAX_LINHA);
                 opcao();
                 scanf("%d", &op);
                 break;
