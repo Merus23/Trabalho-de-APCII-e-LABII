@@ -310,6 +310,38 @@ void exibe_classe(Passageiro *p, int n) {
 }
 
 
+void faixa_etaria_dados(Passageiro *p, int n){
+    
+    for (int  i = 0; i < n; i++){
+        if (strcmp(p[i].sobreviveu, "sim") == 0){
+            
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                printf("\nSobrevivente (0-19) - Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);        
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                printf("\nSobrevivente (20-39)- Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);        
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                printf("\nSobrevivente (40-59) - Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);        
+            } else {
+                printf("\nSobrevivente (59+) - Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);        
+            }
+
+        }else{
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                printf("\nNão sobrevivente (0-19) - Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);   
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                printf("\nNão sobrevivente (20-39) - Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                printf("\nNão sobrevivente (40-59) - Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);     
+            } else {
+                printf("\nNão sobrevivente (59+) - Classe: %s; Sexo: %s; Idade: %d\n", p[i].classe, p[i].genero, p[i].idade);  
+            }
+
+        }
+        
+        
+    }
+    
+}
 
 void exibe_situacao(Passageiro *p, int n){
     int cont_sobreviventes = 0;
@@ -379,7 +411,8 @@ void exibe_situacao(Passageiro *p, int n){
     printf(" Sobrevivente     | %-4d | %-5d | %-5d | %-5d |\n", sobrevivente_faixa_etaria[0][0], sobrevivente_faixa_etaria[0][1], sobrevivente_faixa_etaria[0][2], sobrevivente_faixa_etaria[0][3]);
     printf(" Não sobrevivente | %-4d | %-5d | %-5d | %-5d |\n", sobrevivente_faixa_etaria[1][0], sobrevivente_faixa_etaria[1][1], sobrevivente_faixa_etaria[1][2], sobrevivente_faixa_etaria[1][3]);
 
-
+    // printf("FAIXA ETÁRIA COM DADOS:\n\n");
+    // faixa_etaria_dados(p, n);
 }
 
 
