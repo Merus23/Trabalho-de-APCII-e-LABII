@@ -12,7 +12,15 @@ typedef struct {
     char sobreviveu[5];
 } Passageiro;
 
-//Percentual de homens vivos
+int verifica_abertura(FILE* arquivo) {
+    if (arquivo == NULL) {
+        printf("Não foi possível abrir o arquivo\n");
+        return 1;
+    }
+    return 0;
+}
+
+//Calcula o percentual de pessoas vivas
 float percentual_homens_vivos(Passageiro *p, int num_passageiros) 
 {
     int homens_vivos = 0;
@@ -99,16 +107,13 @@ float percentual_vivos_tripulacao(Passageiro* p, int n_passageiros) {
     return percentual_vivos_classe("tripulação", p, n_passageiros);
 }
 
-
+//LOGIN
 int fazerLogin(char* username, char* password) {
     char line[MAX_LEN];
     int success = 0;
 
     FILE *file = fopen("Admin.txt", "r");
-    if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-        exit(1);
-    }
+    verifica_abertura(file);
 
     while (fgets(line, MAX_LEN, file)) {
         char *token = strtok(line, " \n"); // adiciona \n para remover espaços extras no final da linha
@@ -126,25 +131,23 @@ int fazerLogin(char* username, char* password) {
     return success;
 }
 
+//escreva uma função que receba um arquivo e informe se ele foi aberto com sucesso ou não
+
 
 int main() {
-        
     char usuario[MAX_LEN], senha[MAX_LEN];
     printf("\n\nDigite o nome de usuário: ");
     scanf("%s", usuario);
     printf("\nDigite a senha: ");
     scanf("%s", senha);
     
-    if (fazerLogin(usuario, senha) == 1) {
+    if (fazerLogin(usuario, senha)) {
         printf("Login bem sucedido.\n");
         
         FILE *arquivo;
         char linha[MAX_LINHA];    
         arquivo = fopen("Passageiros.txt", "r");
-        if (arquivo == NULL) {
-            printf("Não foi possível abrir o arquivo\n");
-            return 1;
-        }
+        verifica_abertura(arquivo);
 
         Passageiro p[MAX_LINHA];
 
@@ -152,9 +155,7 @@ int main() {
             sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
         }
 
-
-
-
+        
 
         fclose(arquivo);
 
