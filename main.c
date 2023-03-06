@@ -153,9 +153,6 @@ void itemB(Passageiro *p, int num_passageiros){
     printf("Segunda classe : %.2f%%\n", percentual_vivos_segunda_classe(p, num_passageiros));
     printf("Terceira classe : %.2f%%\n", percentual_vivos_terceira_classe(p, num_passageiros));
     printf("Tripulação : %.2f%%\n", percentual_vivos_tripulacao(p, num_passageiros));
-
-
-
 }
 
 
@@ -317,18 +314,71 @@ void exibe_classe(Passageiro *p, int n) {
 void exibe_situacao(Passageiro *p, int n){
     int cont_sobreviventes = 0;
     int cont_nao_sobreviventes = 0;
+    
+    int sobrevivente_masc_femi[2][2] = {0};
+    int sobrevivente_faixa_etaria[2][4] = {0};
 
     for (int i = 0; i < n; i++) {
         if (strcmp(p[i].sobreviveu, "sim") == 0) {
             cont_sobreviventes++;
+            
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                sobrevivente_faixa_etaria[0][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                sobrevivente_faixa_etaria[0][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                sobrevivente_faixa_etaria[0][2]++;
+            } else {
+                sobrevivente_faixa_etaria[0][3]++;
+            }
+
+
+            if (p[i].genero == "masculino") {
+                sobrevivente_masc_femi[0][0]++;
+            } else {
+                sobrevivente_masc_femi[0][1]++;
+            }
+
         
         } else {
+            
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                sobrevivente_faixa_etaria[1][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                sobrevivente_faixa_etaria[1][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                sobrevivente_faixa_etaria[1][2]++;
+            } else {
+                sobrevivente_faixa_etaria[1][3]++;
+            }
+
+            if (p[i].genero == "masculino") {
+                sobrevivente_masc_femi[1][0]++;
+            } else {
+                sobrevivente_masc_femi[1][1]++;
+            }
             cont_nao_sobreviventes++;
         }
     }
     printf("NÚMERO DE PASSAGEIROS POR SITUAÇÃO:\n");
     printf("Sobreviventes: %d\n", cont_sobreviventes);
     printf("Não sobreviventes: %d\n", cont_nao_sobreviventes);
+
+    printf("SEXO\n");
+    printf("Sobreviventes - Masculino: %d | Feminino: %d\n", sobrevivente_masc_femi[0][0], sobrevivente_masc_femi[0][1]);
+    printf("Não sobreviventes - Masculino: %d | Feminino: %d\n", sobrevivente_masc_femi[1][0], sobrevivente_masc_femi[1][1]);
+
+
+    printf("FAIXA ETÁRIA\n");
+    printf("Sobreviventes - 0-19: %d | 20-39: %d | 40-59: %d | 60+: %d\n", sobrevivente_faixa_etaria[0][0], sobrevivente_faixa_etaria[0][1], sobrevivente_faixa_etaria[0][2], sobrevivente_faixa_etaria[0][3]);
+    printf("Não sobreviventes - 0-19: %d | 20-39: %d | 40-59: %d | 60+: %d\n", sobrevivente_faixa_etaria[1][0], sobrevivente_faixa_etaria[1][1], sobrevivente_faixa_etaria[1][2], sobrevivente_faixa_etaria[1][3]);
+
+    printf("FAIXA ETÁRIA:\n\n");
+    printf("                  | 0-19 | 20-39 | 40-59 | 60+  |\n");
+    printf("------------------+------+------+------+------+\n");
+    printf(" Sobrevivente     | %-4d | %-5d | %-5d | %-5d |\n", sobrevivente_faixa_etaria[0][0], sobrevivente_faixa_etaria[0][1], sobrevivente_faixa_etaria[0][2], sobrevivente_faixa_etaria[0][3]);
+    printf(" Não sobrevivente | %-4d | %-5d | %-5d | %-5d |\n", sobrevivente_faixa_etaria[1][0], sobrevivente_faixa_etaria[1][1], sobrevivente_faixa_etaria[1][2], sobrevivente_faixa_etaria[1][3]);
+
 
 }
 
@@ -405,21 +455,7 @@ int main() {
         printf("\nLogin bem sucedido.\n\n");
         
         menu();
-        
-        char linha[MAX_LINHA];    
-        FILE *arquivo = carregar_arquivo("Passageiros.txt");
-        verifica_abertura(arquivo);
-
-        Passageiro p[MAX_LINHA];
-
-        for (int i = 0; i < MAX_LINHA && fgets(linha, MAX_LINHA, arquivo); i++) {
-            sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
-        }
-
-        //printf("Percentual de sobreviventes do sexo feminino: %.2f\n", percentual_mulheres_vivas(p, MAX_LINHA));
-
-
-        fclose(arquivo);
+       
 
     } else {
         printf("Nome de usuário ou senha incorretos.\n");
