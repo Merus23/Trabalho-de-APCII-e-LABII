@@ -122,6 +122,7 @@ int fazerLogin(char* username, char* password) {
     char line[MAX_LEN];
     int success = 0;
 
+    
     FILE * arquivo = carregar_arquivo("Admin.txt");
     
     verifica_abertura(arquivo);
@@ -142,18 +143,123 @@ int fazerLogin(char* username, char* password) {
     return success;
 }
 
-void menu(){
-    int op;
-    
-    printf("1 - Exibir número de passageiros por sexo\n");
-    printf("2 - Exibir número de passageiros por classe\n");
-    printf("3 - Exibir número de passageiros por situação\n");
-    scanf("%d", &op);
+
+void itemB(Passageiro *p, int num_passageiros){
+    printf("Homens : %.2f%%\n", percentual_homens_vivos(p, num_passageiros));
+    printf("Mulheres : %.2f%%\n", percentual_mulheres_vivas(p, num_passageiros));
+    printf("Crianças  : %.2f%%\n", percentual_criancas_vivas(p, num_passageiros));
+    printf("Adultos  : %.2f%%\n", percentual_adultos_vivos(p, num_passageiros));
+    printf("Primeira classe : %.2f%%\n", percentual_vivos_primeira_classe(p, num_passageiros));
+    printf("Segunda classe : %.2f%%\n", percentual_vivos_segunda_classe(p, num_passageiros));
+    printf("Terceira classe : %.2f%%\n", percentual_vivos_terceira_classe(p, num_passageiros));
+    printf("Tripulação : %.2f%%\n", percentual_vivos_tripulacao(p, num_passageiros));
+
 
 
 }
 
+
+void exibe_sexo(Passageiro *p, int n) {
+    int cont_feminino = 0, cont_masculino = 0;
+    int cont_faixa_etaria[2][4] = {0}; // matriz auxiliar para contar a quantidade de passageiros em cada faixa etária para cada sexo
+
+    for (int i = 0; i < n; i++) {
+        if (strcmp(p[i].genero, "feminino") == 0) {
+            cont_feminino++;
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[0][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[0][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[0][2]++;
+            } else {
+                cont_faixa_etaria[0][3]++;
+            }
+        } else if (strcmp(p[i].genero, "masculino") == 0) {
+            cont_masculino++;
+            if (p[i].idade >= 0 && p[i].idade <= 19) {
+                cont_faixa_etaria[1][0]++;
+            } else if (p[i].idade >= 20 && p[i].idade <= 39) {
+                cont_faixa_etaria[1][1]++;
+            } else if (p[i].idade >= 40 && p[i].idade <= 59) {
+                cont_faixa_etaria[1][2]++;
+            } else {
+                cont_faixa_etaria[1][3]++;
+            }
+        }
+    }
+
+    printf("Passageiros do sexo feminino: %d\n", cont_feminino);
+    printf("Passageiros do sexo masculino: %d\n", cont_masculino);
+    printf("Passageiros por faixa etária e sexo:\n\n");
+    printf("   | 0-19 | 20-39 | 40-59 | 60+  |\n");
+    printf("---+------+------+------+------+\n");
+    printf(" F | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[0][0], cont_faixa_etaria[0][1], cont_faixa_etaria[0][2], cont_faixa_etaria[0][3]);
+    printf(" M | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[1][0], cont_faixa_etaria[1][1], cont_faixa_etaria[1][2], cont_faixa_etaria[1][3]);
+}
+
+
+
+
+void opcao(){
+    printf("\n\n");
+    printf("1 - Qual a porcentagem de X que sobreviveram ao acidente? Onde X seria :\n");
+    printf("2 - Exibir número de passageiros por sexo\n");
+    printf("3 - Exibir número de passageiros por classe\n");
+    printf("4 - Exibir número de passageiros por situação\n");
+    printf("0 - Sair\n");  
+    printf("\n\n");
+}
+
+void menu(){
+    int op;
+    
+    opcao();
+    scanf("%d", &op);
+    
+    
+    char linha[MAX_LINHA];
+    FILE *arquivo = carregar_arquivo("Passageiros.txt");
+    verifica_abertura(arquivo);
+
+    Passageiro p[MAX_LINHA];
+
+    for (int i = 0; i < MAX_LINHA && fgets(linha, MAX_LINHA, arquivo); i++) {
+        sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
+    }
+    while (op != 0){
+        switch(op){
+            case 1: 
+                itemB(p, MAX_LINHA);
+                opcao();
+                scanf("%d", &op);
+
+                break;
+            case 2:
+                exibe_sexo(p, MAX_LINHA);
+                opcao();
+                scanf("%d", &op);
+                break;
+            case 3:
+                opcao();
+                scanf("%d", &op);
+                break;
+            case 4:
+                opcao();
+                scanf("%d", &op);
+                break;
+            default:
+                printf("Opção inválida\n");
+                break;
+        }    
+    }
+    
+    
+
+}
+
 int main() {
+    
     char usuario[MAX_LEN], senha[MAX_LEN];
     printf("\n\nDigite o nome de usuário: ");
     scanf("%s", usuario);
@@ -161,7 +267,7 @@ int main() {
     scanf("%s", senha);
     
     if (fazerLogin(usuario, senha)) {
-        printf("Login bem sucedido.\n");
+        printf("\nLogin bem sucedido.\n\n");
         
         menu();
         
