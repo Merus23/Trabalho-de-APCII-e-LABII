@@ -191,6 +191,7 @@ void exibe_sexo(Passageiro *p, int n) {
 
     printf("Passageiros do sexo feminino: %d\n", cont_feminino);
     printf("Passageiros do sexo masculino: %d\n", cont_masculino);
+    printf("Passageiros no total : %d\n", cont_feminino + cont_masculino);
     printf("Passageiros por faixa etária e sexo:\n\n");
     printf("   | 0-19 | 20-39 | 40-59 | 60+  |\n");
     printf("---+------+------+------+------+\n");
@@ -198,7 +199,28 @@ void exibe_sexo(Passageiro *p, int n) {
     printf(" M | %-4d | %-5d | %-5d | %-5d |\n", cont_faixa_etaria[1][0], cont_faixa_etaria[1][1], cont_faixa_etaria[1][2], cont_faixa_etaria[1][3]);
 }
 
+void exibe_classe(Passageiro *p, int n) {
+    int primeira = 0, segunda = 0, terceira = 0, tripulacao = 0;
+    
+    for (int i = 0; i < n; i++) {
+        if (strcmp(p[i].classe, "1") == 0) {
+            primeira++;
+        } else if (strcmp(p[i].classe, "2") == 0) {
+            segunda++;
+        } else if (strcmp(p[i].classe, "3") == 0) {
+            terceira++;
+        } else {
+            tripulacao++;
+        }
+    }
 
+    printf("Número de passageiros por classe:\n");
+    printf("Primeira classe: %d\n", primeira);
+    printf("Segunda classe: %d\n", segunda);
+    printf("Terceira classe: %d\n", terceira);
+    printf("Tripulação: %d\n", tripulacao);
+    printf("Número de todos os passageiros separados por classe: %d\n", n-tripulacao);
+}
 
 
 void opcao(){
@@ -227,6 +249,7 @@ void menu(){
     for (int i = 0; i < MAX_LINHA && fgets(linha, MAX_LINHA, arquivo); i++) {
         sscanf(linha, "%[^,],%d,%[^,],%s", p[i].classe, &p[i].idade, p[i].genero, p[i].sobreviveu);
     }
+
     while (op != 0){
         switch(op){
             case 1: 
@@ -241,6 +264,7 @@ void menu(){
                 scanf("%d", &op);
                 break;
             case 3:
+                exibe_classe(p, MAX_LINHA);
                 opcao();
                 scanf("%d", &op);
                 break;
