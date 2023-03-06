@@ -20,6 +20,16 @@ int verifica_abertura(FILE* arquivo) {
     return 0;
 }
 
+FILE* carregar_arquivo(char* nome_arquivo) {
+    FILE *arquivo;
+    arquivo = fopen(nome_arquivo, "r");
+    if (arquivo == NULL) {
+        printf("Erro na abertura do arquivo.\n");
+        exit(1);
+    }
+    return arquivo;
+}
+
 //Calcula o percentual de pessoas vivas
 float percentual_homens_vivos(Passageiro *p, int num_passageiros) 
 {
@@ -112,10 +122,11 @@ int fazerLogin(char* username, char* password) {
     char line[MAX_LEN];
     int success = 0;
 
-    FILE *file = fopen("Admin.txt", "r");
-    verifica_abertura(file);
+    FILE * arquivo = carregar_arquivo("Admin.txt");
+    
+    verifica_abertura(arquivo);
 
-    while (fgets(line, MAX_LEN, file)) {
+    while (fgets(line, MAX_LEN, arquivo)) {
         char *token = strtok(line, " \n"); // adiciona \n para remover espaços extras no final da linha
         if (token != NULL && strcmp(token, username) == 0) {
             token = strtok(NULL, " \n"); // adiciona \n para remover espaços extras no final da linha
@@ -126,12 +137,11 @@ int fazerLogin(char* username, char* password) {
         }
     }
 
-    fclose(file);
+    fclose(arquivo);
 
     return success;
 }
 
-//escreva uma função que receba um arquivo e informe se ele foi aberto com sucesso ou não
 
 
 int main() {
@@ -156,7 +166,6 @@ int main() {
         }
 
         
-
         fclose(arquivo);
 
     } else {
